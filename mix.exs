@@ -4,7 +4,7 @@ defmodule Ipdust.Mixfile do
   def project do
     [
       app: :ipdust,
-      version: "0.0.1",
+      version: version(),
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -22,6 +22,11 @@ defmodule Ipdust.Mixfile do
       mod: {Ipdust.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
+  end
+
+  def version do
+    version_from_file()
+    |> handle_file_version()
   end
 
   # Specifies which paths to compile per environment.
@@ -57,5 +62,26 @@ defmodule Ipdust.Mixfile do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
+  end
+
+  defp version_from_file, do: File.read("VERSION")
+
+  defp handle_file_version({:ok, content}) do
+    content
+    |> String.trim
+  end
+  defp handle_file_version({:error, _}), do: semver_from_git()
+
+  # Creates a version string that uses the git revision but is still parsable by Version.parse/1
+  # Valid semver example: 0.0.0+7d68c8f-dirty
+  defp semver_from_git do
+    "0.0.0+" <> git_revision()
+  end
+
+  # Get current git revision. If dirty, gets appended with "-dirty"
+  defp git_revision do
+    System.cmd("git", ~w{describe --dirty --always --tags --first-parent})
+    |> elem(0)
+    |> String.trim
   end
 end
