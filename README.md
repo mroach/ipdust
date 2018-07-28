@@ -7,7 +7,8 @@ An app for basic ip info
 ### PostgreSQL
 
 ```shell
-echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
+curl -fsSL http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main"
 sudo apt-get update && sudo apt-get -y install postgresql
 ```
 
@@ -16,9 +17,9 @@ sudo apt-get update && sudo apt-get -y install postgresql
 At the time of writing, `erlang-parsetools` and `erlang-dev` were needed for `gettext` to compile, at least on WSL
 
 ```shell
-wget -qO - https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | sudo apt-key add -
+curl -fsSL  https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | sudo apt-key add -
 
-echo "deb http://binaries.erlang-solutions.com/debian $(lsb_release -cs) contrib" | sudo tee /etc/apt/sources.list.d/erlang-solutions.list
+sudo apt-add-repository "deb http://binaries.erlang-solutions.com/debian $(lsb_release -cs) contrib"
 
 sudo apt-get update
 sudo apt-get -y install inotify-tools elixir erlang-dev erlang-parsetools
