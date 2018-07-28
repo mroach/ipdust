@@ -1,5 +1,3 @@
-# -*- mode: bash -*-
-
 APP="ipdust"
 
 BUILD_HOST="stroopwafel.mroach.com"
@@ -16,4 +14,5 @@ pre_erlang_get_and_update_deps() {
     __sync_remote "
       ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
     "
+  fi
 }
