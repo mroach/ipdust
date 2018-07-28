@@ -1,0 +1,19 @@
+# -*- mode: bash -*-
+
+APP="ipdust"
+
+BUILD_HOST="stroopwafel.mroach.com"
+BUILD_USER="app-ipdust"
+BUILD_AT="/home/app-ipdust/app_build"
+
+PRODUCTION_HOSTS="stroopwafel.mroach.com"
+PRODUCTION_USER="app-ipdust"
+DELIVER_TO="/home/app-ipdust/app_release"
+
+pre_erlang_get_and_update_deps() {
+  local _prod_secret_path="/home/app-ipdust/app_config/prod.secret.exs"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    __sync_remote "
+      ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
+    "
+}
