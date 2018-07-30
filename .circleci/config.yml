@@ -1,0 +1,68 @@
+version: 2
+jobs:
+  build:
+    parallelism: 1
+    docker:
+      - image: circleci/elixir:1.6
+        environment:
+          MIX_ENV: test
+          HEX_HTTP_CONCURRENCY: 1
+          HEX_HTTP_TIMEOUT: 60
+      - image: circleci/postgres:10.4-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: ipdust_test
+          POSTGRES_PASSWORD:
+    working_directory: ~/app
+
+    steps:
+      - checkout
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+
+      - restore_cache:
+          keys:
+            - v1-mix-cache-{{ checksum "mix.lock" }}
+            - v1-mix-cache-{{ .Branch }}
+            - v1-mix-cache
+
+      - restore_cache:
+          keys:
+            - v1-build-cache-{{ .Branch }}
+            - v1-build-cache
+
+      # This should be installed with deps.get but often fails on CircleCI, but works if installed this way
+      - run: mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phx_new.ez
+      - run: mix do deps.get, compile
+
+      - save_cache:
+          key: v1-mix-cache-{{ checksum "mix.lock" }}
+          paths: "deps"
+      - save_cache:
+          key: v1-mix-cache-{{ .Branch }}
+          paths: "deps"
+      - save_cache:
+          key: v1-mix-cache
+          paths: "deps"
+
+      - save_cache:
+          key: v1-build-cache-{{ .Branch }}
+          paths: "_build"
+      - save_cache:
+          key: v1-build-cache
+          paths: "_build"
+
+      - run:
+          name: Wait for database
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run: mix ecto.create
+      - run: mix test
+
+      - store_test_results:
+          path: _build/test/lib/ipdust
+
+      - run: mix edeliver build release production
+      - run: mix edeliver deploy release to production
+      - run: mix edeliver restart production
+
