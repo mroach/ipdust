@@ -4,11 +4,29 @@ defmodule IpdustWeb.Plugs.IpInfo do
   def init(default), do: default
 
   def call(conn, _default) do
+    remote_ip = find_remote_ip(conn)
     conn
-    |> assign(:remote_ip, ip_to_string(conn.remote_ip))
-    |> assign(:hostname, hostname(conn.remote_ip))
+    |> assign(:remote_ip, ip_to_string(remote_ip))
+    |> assign(:hostname, hostname(remote_ip))
     |> assign(:server_time, DateTime.utc_now)
     |> assign(:headers, conn.req_headers)
+  end
+
+  @doc """
+    Prefer the IP address in the X-Real-IP HTTP header as the app may be sitting
+    behind an nginx proxy
+
+  ## Examples
+      iex> %Plug.Conn{remote_ip: "127.0.0.1"}
+      ...> |> Plug.Conn.put_req_header("x-real-ip", "24.34.153.229")
+      ...> |> IpdustWeb.Plugs.IpInfo.find_remote_ip
+      {24,34,153,229}
+  """
+  def find_remote_ip(%Plug.Conn{} = conn) do
+    case get_req_header(conn, "x-real-ip") do
+      [ip] -> ip_from_string(ip)
+      [] -> conn.remote_ip
+    end
   end
 
   @doc """
@@ -24,6 +42,21 @@ defmodule IpdustWeb.Plugs.IpInfo do
     ip
     |> Tuple.to_list
     |> Enum.join(".")
+  end
+
+  @doc """
+    Convert an IP address from a string into a Tuple which most :inet methods expect
+
+  ## Examples
+
+    iex> IpdustWeb.Plugs.IpInfo.ip_from_string("24.34.153.229")
+    {24,34,153,229}
+  """
+  def ip_from_string(ip) do
+    case :inet.parse_address(to_charlist(ip)) do
+      {:ok, ip_tuple} -> ip_tuple
+      _ -> nil
+    end
   end
 
   @doc """
