@@ -15,11 +15,6 @@ pre_erlang_get_and_update_deps() {
     __sync_remote "
       ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
     "
-  fi
-}
-
-post_erlang_clean_compile() {}
-  if [ "$TARGET_MIX_ENV" = "prod" ]; then
     status "Downloading MaxMind GeoIP City 2 Lite database"
     __sync_remote "
       curl -o '$BUILD_AT/priv/geoip/GeoLite2-City.tar.gz' http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz

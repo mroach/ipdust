@@ -19,7 +19,18 @@ defmodule Ipdust.Application do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Ipdust.Supervisor]
+
     Supervisor.start_link(children, opts)
+    |> after_start
+  end
+
+  defp after_start({:ok, _} = result) do
+    Geolix.load_database(%{
+      id: :city,
+      adapter: Geolix.Adapter.MMDB2,
+      source: Application.app_dir(:ipdust, "priv/geoip/GeoLite2-City.tar.gz")
+    })
+    result
   end
 
   # Tell Phoenix to update the endpoint configuration
