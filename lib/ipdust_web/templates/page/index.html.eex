@@ -2,6 +2,7 @@
   Your IP:     <%= @remote_ip %>
   Server time: <%= date_time_format(@server_time) %>
   Hostname:    <%= @hostname %>
+  HTTPS:       <%= if @is_https, do: "Yes", else: "No" %>
 
   HTTP Headers:
   <%= for {name, value} <- @headers do %>

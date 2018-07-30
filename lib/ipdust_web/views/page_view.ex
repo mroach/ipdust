@@ -4,6 +4,7 @@ defmodule IpdustWeb.PageView do
   def render("json.json", params) do
     %{
       ip: params.remote_ip,
+      https: params.is_https,
       host: params.hostname,
       server_time: params.server_time,
       headers: params.headers |> Enum.into(%{})

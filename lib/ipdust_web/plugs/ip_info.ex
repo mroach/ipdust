@@ -8,6 +8,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
     conn
     |> assign(:remote_ip, ip_to_string(remote_ip))
     |> assign(:hostname, hostname(remote_ip))
+    |> assign(:is_https, is_https(conn))
     |> assign(:server_time, DateTime.utc_now)
     |> assign(:headers, conn.req_headers)
   end
@@ -25,7 +26,28 @@ defmodule IpdustWeb.Plugs.IpInfo do
   def find_remote_ip(%Plug.Conn{} = conn) do
     case get_req_header(conn, "x-real-ip") do
       [ip] -> ip_from_string(ip)
-      [] -> conn.remote_ip
+      _ -> conn.remote_ip
+    end
+  end
+
+  @doc """
+    Indicate if the current connection is over HTTPS based on the scheme connected to
+    the Phoenix server or based on the X-Forwarded-Proto header from the load balancer
+
+  ## Examples
+      iex> %Plug.Conn{scheme: :https} |> IpdustWeb.Plugs.IpInfo.is_https
+      true
+
+      iex> %Plug.Conn{scheme: :http}
+      ...> |> Plug.Conn.put_req_header("x-forwarded-proto", "https")
+      ...> |> IpdustWeb.Plugs.IpInfo.is_https
+      true
+  """
+  def is_https(%Plug.Conn{scheme: :https} = _), do: true
+  def is_https(%Plug.Conn{} = conn) do
+    case get_req_header(conn, "x-forwarded-proto") do
+      ["https"] -> true
+      _ -> false
     end
   end
 
