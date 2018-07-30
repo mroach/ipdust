@@ -20,7 +20,7 @@ defmodule Ipdust.Mixfile do
   def application do
     [
       mod: {Ipdust.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :geolix]
     ]
   end
 
@@ -49,6 +49,7 @@ defmodule Ipdust.Mixfile do
       {:timex, "~> 3.1"},
       {:edeliver, "~> 1.5"},
       {:distillery, "~> 1.5", runtime: false},
+      {:geolix, "~> 0.16"}
     ]
   end
 

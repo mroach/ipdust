@@ -17,3 +17,5 @@ erl_crash.dump
 
 # Release tarballs
 .deliver/releases/
+
+priv/geoip/*.gz

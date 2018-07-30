@@ -3,6 +3,9 @@
   Server time: <%= date_time_format(@server_time) %>
   Hostname:    <%= @hostname %>
   HTTPS:       <%= if @is_https, do: "Yes", else: "No" %>
+  <% if @geoip_success do %>
+  Location:    <%= @geoip_city %>, <%= @geoip_country %>
+  <% end %>
 
   HTTP Headers:
   <%= for {name, value} <- @headers do %>

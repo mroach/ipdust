@@ -22,7 +22,7 @@ curl -fsSL  https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | 
 sudo apt-add-repository "deb http://binaries.erlang-solutions.com/debian $(lsb_release -cs) contrib"
 
 sudo apt-get update
-sudo apt-get -y install inotify-tools elixir erlang-dev erlang-parsetools
+sudo apt-get -y install esl-erlang inotify-tools elixir erlang-dev erlang-parsetools
 ```
 
 ### Phoenix

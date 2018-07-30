@@ -1,5 +1,6 @@
 defmodule IpdustWeb.Plugs.IpInfo do
   import Plug.Conn
+  require Logger
 
   def init(default), do: default
 
@@ -11,6 +12,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign(:is_https, is_https(conn))
     |> assign(:server_time, DateTime.utc_now)
     |> assign(:headers, conn.req_headers)
+    |> assign_geoip_fields(remote_ip)
   end
 
   @doc """
@@ -27,6 +29,22 @@ defmodule IpdustWeb.Plugs.IpInfo do
     case get_req_header(conn, "x-real-ip") do
       [ip] -> ip_from_string(ip)
       _ -> conn.remote_ip
+    end
+  end
+
+  def assign_geoip_fields(conn, ip) when is_tuple(ip), do: assign_geoip_fields(conn, ip_to_string(ip))
+  def assign_geoip_fields(conn, ip) do
+    case Geolix.lookup(ip, where: :city) do
+      nil ->
+        Logger.info "GeoIP failed for #{ip}"
+        assign(conn, :geoip_success, false)
+      result ->
+        Logger.info "GeoIP success for #{ip}"
+        conn
+        |> assign(:geoip_success, true)
+        |> assign(:geoip_city, result.city.name)
+        |> assign(:geoip_country, result.country.name)
+        |> assign(:geoip_country_iso, result.country.iso_code)
     end
   end
 

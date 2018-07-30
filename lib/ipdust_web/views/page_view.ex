@@ -2,13 +2,18 @@ defmodule IpdustWeb.PageView do
   use IpdustWeb, :view
 
   def render("json.json", params) do
+    geoip = case params.geoip_success do
+      true -> %{  country: params.geoip_country_iso, city: params.geoip_city }
+      _ -> %{}
+    end
+
     %{
       ip: params.remote_ip,
       https: params.is_https,
       host: params.hostname,
       server_time: params.server_time,
       headers: params.headers |> Enum.into(%{})
-    }
+    } |> Map.merge(geoip)
   end
 
   @doc """
