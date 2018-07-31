@@ -12,3 +12,5 @@
     <%= name %>: <%= value %>
   <% end %>
 </pre>
+
+<p>Source on <a href="https://github.com/mroach/ipdust">GitHub</a></p>
