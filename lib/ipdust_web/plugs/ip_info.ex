@@ -39,14 +39,26 @@ defmodule IpdustWeb.Plugs.IpInfo do
         Logger.info "GeoIP failed for #{ip}"
         assign(conn, :geoip_success, false)
       result ->
-        Logger.info "GeoIP success for #{ip}"
+        Logger.info "GeoIP success for #{ip} #{result.country.iso_code}"
         conn
         |> assign(:geoip_success, true)
-        |> assign(:geoip_city, result.city.name)
-        |> assign(:geoip_country, result.country.name)
-        |> assign(:geoip_country_iso, result.country.iso_code)
+        |> assign_geoip_city(result.city)
+        |> assign_geoip_country(result.country)
     end
   end
+
+  def assign_geoip_city(conn, %Geolix.Record.City{name: city} = _) do
+    conn
+    |> assign(:geoip_city, city)
+  end
+  def assign_geoip_city(conn, nil), do: conn
+
+  def assign_geoip_country(conn, %Geolix.Record.Country{name: country, iso_code: code} = _) do
+    conn
+    |> assign(:geoip_country, country)
+    |> assign(:geoip_country_iso, code)
+  end
+  def assign_geoip_country(conn, nil), do: conn
 
   @doc """
     Indicate if the current connection is over HTTPS based on the scheme connected to

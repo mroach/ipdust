@@ -4,7 +4,7 @@
   Hostname:    <%= @hostname %>
   HTTPS:       <%= if @is_https, do: "Yes", else: "No" %>
   <%= if @geoip_success do %>
-  Location:    <%= @geoip_city %>, <%= @geoip_country %>
+  Location:    <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %>
   <% end %>
 
   HTTP Headers:

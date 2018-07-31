@@ -3,7 +3,7 @@ defmodule IpdustWeb.PageView do
 
   def render("json.json", params) do
     geoip = case params.geoip_success do
-      true -> %{  country: params.geoip_country_iso, city: params.geoip_city }
+      true -> %{  country: params[:geoip_country], city: params[:geoip_city] }
       _ -> %{}
     end
 
