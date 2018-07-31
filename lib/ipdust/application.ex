@@ -1,4 +1,7 @@
 defmodule Ipdust.Application do
+  @moduledoc """
+  Simple app to show some client information
+  """
   use Application
 
   # See https://hexdocs.pm/elixir/Application.html
@@ -20,7 +23,8 @@ defmodule Ipdust.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Ipdust.Supervisor]
 
-    Supervisor.start_link(children, opts)
+    children
+    |> Supervisor.start_link(opts)
     |> after_start
   end
 

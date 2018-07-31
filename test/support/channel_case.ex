@@ -25,7 +25,6 @@ defmodule IpdustWeb.ChannelCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Ipdust.Repo)
     unless tags[:async] do

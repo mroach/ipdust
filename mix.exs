@@ -49,7 +49,8 @@ defmodule Ipdust.Mixfile do
       {:timex, "~> 3.1"},
       {:edeliver, "~> 1.5"},
       {:distillery, "~> 1.5", runtime: false},
-      {:geolix, "~> 0.16"}
+      {:geolix, "~> 0.16"},
+      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false}
     ]
   end
 

@@ -1,4 +1,13 @@
 defmodule IpdustWeb.Plugs.IpInfo do
+  @moduledoc """
+  Adds information about the client to the connection
+  * Remote IP
+  * Hostname
+  * HTTPS
+  * Server time
+  * Headers
+  * GeoIP info
+  """
   import Plug.Conn
   require Logger
 
