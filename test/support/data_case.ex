@@ -13,6 +13,7 @@ defmodule Ipdust.DataCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -26,10 +27,10 @@ defmodule Ipdust.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Ipdust.Repo)
+    :ok = Sandbox.checkout(Ipdust.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Ipdust.Repo, {:shared, self()})
+      Sandbox.mode(Ipdust.Repo, {:shared, self()})
     end
 
     :ok
