@@ -24,7 +24,6 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign_geoip_fields(remote_ip)
   end
 
-
   def assign_geoip_fields(conn, ip) when is_tuple(ip), do: assign_geoip_fields(conn, ip_to_string(ip))
   def assign_geoip_fields(conn, ip) do
     case Geolix.lookup(ip, where: :city) do
