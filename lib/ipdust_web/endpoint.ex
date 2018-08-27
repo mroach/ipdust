@@ -1,6 +1,8 @@
 defmodule IpdustWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :ipdust
 
+  plug RemoteIp
+
   socket "/socket", IpdustWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.

@@ -14,7 +14,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
   def init(default), do: default
 
   def call(conn, _default) do
-    remote_ip = find_remote_ip(conn)
+    remote_ip = conn.remote_ip
     conn
     |> assign(:remote_ip, ip_to_string(remote_ip))
     |> assign(:hostname, hostname(remote_ip))
@@ -24,22 +24,6 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign_geoip_fields(remote_ip)
   end
 
-  @doc """
-    Prefer the IP address in the X-Real-IP HTTP header as the app may be sitting
-    behind an nginx proxy
-
-  ## Examples
-      iex> %Plug.Conn{remote_ip: "127.0.0.1"}
-      ...> |> Plug.Conn.put_req_header("x-real-ip", "24.34.153.229")
-      ...> |> IpdustWeb.Plugs.IpInfo.find_remote_ip
-      {24,34,153,229}
-  """
-  def find_remote_ip(%Plug.Conn{} = conn) do
-    case get_req_header(conn, "x-real-ip") do
-      [ip] -> ip_from_string(ip)
-      _ -> conn.remote_ip
-    end
-  end
 
   def assign_geoip_fields(conn, ip) when is_tuple(ip), do: assign_geoip_fields(conn, ip_to_string(ip))
   def assign_geoip_fields(conn, ip) do

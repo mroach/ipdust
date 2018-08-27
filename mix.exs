@@ -50,6 +50,7 @@ defmodule Ipdust.Mixfile do
       {:edeliver, "~> 1.5"},
       {:distillery, "~> 1.5", runtime: false},
       {:geolix, "~> 0.16"},
+      {:remote_ip, "~> 0.1.0"},
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false}
     ]
   end
