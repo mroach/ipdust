@@ -51,7 +51,8 @@ defmodule Ipdust.Mixfile do
       {:geolix, "~> 0.16"},
       {:remote_ip, "~> 0.1.0"},
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
-      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false}
+      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:rdap, path: "../exrdap"}
     ]
   end
 
