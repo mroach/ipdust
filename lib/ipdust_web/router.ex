@@ -11,6 +11,7 @@ defmodule IpdustWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/net", PageController, :net
     get "/json", PageController, :json
   end
 end

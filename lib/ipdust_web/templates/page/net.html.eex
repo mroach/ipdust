@@ -1,0 +1,4 @@
+<h2><%= @network_id %></h2>
+
+<h3>RDAP/WHOIS Information</h3>
+<pre><%= @raw_response %></pre>
