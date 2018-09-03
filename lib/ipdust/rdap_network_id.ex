@@ -4,7 +4,26 @@ defmodule Ipdust.RDAPNetworkId do
   or company name
   """
 
-  alias RDAP.{Entity, Response}
+  alias RDAP.{Entity, Response, VCard}
+
+  def identify(ip) when is_binary(ip), do: ip |> RDAP.lookup_ip |> identify
+  def identify({:ok, %Response{} = response}), do: identify(response)
+  def identify(%Response{} = response) do
+    finders = [
+      fn r -> r |> entity_with_role("registrant") |> entity_descriptor end,
+      &remark_description(&1),
+      fn r -> r |> entity_with_role("abuse") |> entity_descriptor end
+    ]
+
+    Enum.find_value(finders, fn finder -> finder.(response) end)
+  end
+  def identify(_), do: nil
+
+  def entity_descriptor(%Entity{vcard: %VCard{formatted_name: name}} = _), do: name
+  def entity_descriptor(%Entity{vcard: %VCard{address: addr}}) do
+    VCard.Address.addressee(addr)
+  end
+  def entity_descriptor(_), do: nil
 
   @doc """
   (This is a bit of a mess and could probably use a refactor)

@@ -57,4 +57,31 @@ defmodule Ipdust.RDAPNetworkIdTest do
 
     assert "Derpanet" == RDAPNetworkId.remark_description(response)
   end
+
+  test "given a response with a registrant, uses it" do
+    response = %Response{entities: [
+      %Entity{
+        roles: ["registrant"],
+        vcard: %VCard{formatted_name: "DerpaNet"},
+      }
+    ]}
+
+    assert "DerpaNet" = RDAPNetworkId.identify(response)
+  end
+
+  test "given a response with no registratnt but a remark description, uses it" do
+    response = %Response{
+      entities: [
+        %Entity{
+          roles: ["abuse"],
+          vcard: %VCard{formatted_name: "DerpaNet Abuse"},
+        },
+      ],
+      raw_response: %{
+        remarks: [%{description: ["Derpanet"]}]
+      }
+    }
+
+    assert "Derpanet" = RDAPNetworkId.identify(response)
+  end
 end
