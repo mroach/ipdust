@@ -6,6 +6,7 @@
   <%= if @geoip_success do %>
   Location:    <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %>
   <% end %>
+  WHOIS/RDAP:  <%= link("WHOIS/RDAP Query", to: "/net") %>
 
   HTTP Headers:
   <%= for {name, value} <- @headers do %>
