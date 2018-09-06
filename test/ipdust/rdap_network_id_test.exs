@@ -84,4 +84,21 @@ defmodule Ipdust.RDAPNetworkIdTest do
 
     assert "Derpanet" = RDAPNetworkId.identify(response)
   end
+
+  test "uses the network name if avaialble" do
+    response = %Response{
+      entities: [
+        %Entity{
+          roles: ["registrant"],
+          vcard: %VCard{formatted_name: "Abuse"},
+        },
+      ],
+      raw_response: %{
+        name: "Derpanet",
+        remarks: [%{description: ["Nothing"]}]
+      }
+    }
+
+    assert "Derpanet" = RDAPNetworkId.identify(response)
+  end
 end

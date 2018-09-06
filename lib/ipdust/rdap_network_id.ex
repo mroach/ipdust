@@ -10,6 +10,7 @@ defmodule Ipdust.RDAPNetworkId do
   def identify({:ok, %Response{} = response}), do: identify(response)
   def identify(%Response{} = response) do
     finders = [
+      &network_name(&1),
       fn r -> r |> entity_with_role("registrant") |> entity_descriptor end,
       &remark_description(&1),
       fn r -> r |> entity_with_role("abuse") |> entity_descriptor end
@@ -18,6 +19,9 @@ defmodule Ipdust.RDAPNetworkId do
     Enum.find_value(finders, fn finder -> finder.(response) end)
   end
   def identify(_), do: nil
+
+  def network_name(%Response{raw_response: %{name: name}} = _), do: name
+  def network_name(_), do: nil
 
   def entity_descriptor(%Entity{vcard: %VCard{formatted_name: name}} = _), do: name
   def entity_descriptor(%Entity{vcard: %VCard{address: addr}}) do
