@@ -10,9 +10,9 @@ defmodule Ipdust.RDAPNetworkId do
   def identify({:ok, %Response{} = response}), do: identify(response)
   def identify(%Response{} = response) do
     finders = [
-      &network_name(&1),
       fn r -> r |> entity_with_role("registrant") |> entity_descriptor end,
       &remark_description(&1),
+      &network_name(&1),
       fn r -> r |> entity_with_role("abuse") |> entity_descriptor end
     ]
 

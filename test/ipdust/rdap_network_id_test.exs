@@ -89,13 +89,12 @@ defmodule Ipdust.RDAPNetworkIdTest do
     response = %Response{
       entities: [
         %Entity{
-          roles: ["registrant"],
+          roles: ["abuse"],
           vcard: %VCard{formatted_name: "Abuse"},
         },
       ],
       raw_response: %{
-        name: "Derpanet",
-        remarks: [%{description: ["Nothing"]}]
+        name: "Derpanet"
       }
     }
 
