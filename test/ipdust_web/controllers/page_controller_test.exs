@@ -3,7 +3,7 @@ defmodule IpdustWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"
-    assert html_response(conn, 200) =~ "Your IP"
+    assert html_response(conn, 200) =~ "Hostname"
   end
 
   test "GET /json behind proxy", %{conn: conn} do

@@ -9,13 +9,11 @@
 
     <title><%= @remote_ip %></title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/milligram.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/site.css") %>">
   </head>
 
   <body>
     <div class="container">
-      <header class="header">
-        <h1><%= @remote_ip %></h1>
-      </header>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>

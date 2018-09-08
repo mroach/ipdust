@@ -1,4 +1,6 @@
-<h2><%= @network_id %></h2>
+<header class="header">
+  <h1><code><%= @network_id %></code></h1>
+</header>
 
 <h3>RDAP/WHOIS Information</h3>
 <pre><%= @raw_response %></pre>

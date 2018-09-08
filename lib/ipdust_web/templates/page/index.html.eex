@@ -1,17 +1,25 @@
-<pre>
-  Your IP:     <%= @remote_ip %>
-  Server time: <%= date_time_format(@server_time) %>
-  Hostname:    <%= @hostname %>
-  HTTPS:       <%= if @is_https, do: "Yes", else: "No" %>
-  <%= if @geoip_success do %>
-  Location:    <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %>
-  <% end %>
-  WHOIS/RDAP:  <%= link("WHOIS/RDAP Query", to: "/net") %>
+<header class="header">
+  <h1><code><%= @remote_ip %></code></h1>
+</header>
 
-  HTTP Headers:
-  <%= for {name, value} <- @headers do %>
-    <%= name %>: <%= value %>
-  <% end %>
+<pre>
+Hostname:   <%= @hostname %>
+HTTPS:      <%= if @is_https, do: "Yes", else: "No" %>
+<%= if @geoip_success do %>
+GeoIP:      <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %>
+<% end %>
+WHOIS/RDAP: <%= link("WHOIS/RDAP Query", to: "/net") %>
+
+Server time: <%= date_time_format(@server_time) %>
 </pre>
+
+<h3>HTTP Headers</h3>
+<pre>
+<%= for {name, value} <- @headers do %>
+<span class="header-name"><%= name %></span>: <%= value %>
+<% end %>
+</pre>
+
+<hr />
 
 <p>Source on <a href="https://github.com/mroach/ipdust">GitHub</a></p>
