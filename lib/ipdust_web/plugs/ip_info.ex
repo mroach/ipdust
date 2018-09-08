@@ -11,6 +11,12 @@ defmodule IpdustWeb.Plugs.IpInfo do
   import Plug.Conn
   require Logger
 
+  @mute_headers ~w[
+    x-cluster-client-ip
+    x-real-ip
+    x-forwarded-proto
+  ]
+
   def init(default), do: default
 
   def call(conn, _default) do
@@ -20,7 +26,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign(:hostname, hostname(remote_ip))
     |> assign(:is_https, is_https(conn))
     |> assign(:server_time, DateTime.utc_now)
-    |> assign(:headers, conn.req_headers)
+    |> assign_headers()
     |> assign_geoip_fields(remote_ip)
   end
 
@@ -51,6 +57,10 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign(:geoip_country_iso, code)
   end
   def assign_geoip_country(conn, nil), do: conn
+
+  def assign_headers(conn) do
+    conn |> assign(:headers, filtered_headers(conn))
+  end
 
   @doc """
     Indicate if the current connection is over HTTPS based on the scheme connected to
@@ -119,5 +129,20 @@ defmodule IpdustWeb.Plugs.IpInfo do
       {:ok, {:hostent, hostname, _, _, _, _}} -> to_string(hostname)
       _ -> nil
     end
+  end
+
+  @doc """
+    Filter muted headers
+
+  ## Examples
+      iex> %Plug.Conn{}
+      ...> |> Plug.Conn.put_req_header("x-forwarded-proto", "https")
+      ...> |> Plug.Conn.put_req_header("user-agent", "Netscape")
+      ...> |> IpdustWeb.Plugs.IpInfo.filtered_headers
+      [{"user-agent", "Netscape"}]
+  """
+  def filtered_headers(conn) do
+    conn.req_headers
+    |> Enum.reject(fn {key, _} -> Enum.member?(@mute_headers, key) end)
   end
 end
