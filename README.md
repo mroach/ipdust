@@ -4,14 +4,6 @@ An app for basic ip info
 
 ## Setup on Ubuntu. Native or Windows Subsystem for Linux (WSL)
 
-### PostgreSQL
-
-```shell
-curl -fsSL http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
-sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main"
-sudo apt-get update && sudo apt-get -y install postgresql
-```
-
 ### Elixir and related deps
 
 At the time of writing, `erlang-parsetools` and `erlang-dev` were needed for `gettext` to compile, at least on WSL

@@ -14,7 +14,6 @@ defmodule IpdustWeb.ChannelCase do
   """
 
   use ExUnit.CaseTemplate
-  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -27,11 +26,6 @@ defmodule IpdustWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Sandbox.checkout(Ipdust.Repo)
-    unless tags[:async] do
-      Sandbox.mode(Ipdust.Repo, {:shared, self()})
-    end
     :ok
   end
-
 end

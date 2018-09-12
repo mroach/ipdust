@@ -14,7 +14,6 @@ defmodule IpdustWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
-  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -28,11 +27,6 @@ defmodule IpdustWeb.ConnCase do
   end
 
   setup tags do
-    :ok = Sandbox.checkout(Ipdust.Repo)
-    unless tags[:async] do
-      Sandbox.mode(Ipdust.Repo, {:shared, self()})
-    end
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

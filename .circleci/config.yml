@@ -8,11 +8,6 @@ jobs:
           MIX_ENV: test
           HEX_HTTP_CONCURRENCY: 1
           HEX_HTTP_TIMEOUT: 60
-      - image: circleci/postgres:10.4-alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: ipdust_test
-          POSTGRES_PASSWORD:
     working_directory: ~/app
 
     steps:
@@ -56,7 +51,6 @@ jobs:
           name: Wait for database
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
-      - run: mix ecto.create
       - run: mix test
       - run: mix credo --strict
 

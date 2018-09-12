@@ -11,8 +11,6 @@ defmodule Ipdust.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the Ecto repository
-      supervisor(Ipdust.Repo, []),
       # Start the endpoint when the application starts
       supervisor(IpdustWeb.Endpoint, []),
       # Start your own worker by calling: Ipdust.Worker.start_link(arg1, arg2, arg3)

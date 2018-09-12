@@ -8,12 +8,3 @@ config :ipdust, IpdustWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Configure your database
-config :ipdust, Ipdust.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "ipdust_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox

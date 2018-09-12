@@ -5,10 +5,6 @@
 # is restricted to this project.
 use Mix.Config
 
-# General application configuration
-config :ipdust,
-  ecto_repos: [Ipdust.Repo]
-
 # Configures the endpoint
 config :ipdust, IpdustWeb.Endpoint,
   url: [host: "localhost"],
