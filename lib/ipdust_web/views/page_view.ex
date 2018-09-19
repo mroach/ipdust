@@ -1,5 +1,6 @@
 defmodule IpdustWeb.PageView do
   use IpdustWeb, :view
+  import Phoenix.HTML.Link
 
   def render("json.json", params) do
     geoip = case params.geoip_success do
@@ -14,6 +15,13 @@ defmodule IpdustWeb.PageView do
       server_time: params.server_time,
       headers: params.headers |> Enum.into(%{})
     } |> Map.merge(geoip)
+  end
+
+  def link_to_header_doc(name) do
+    link(name,
+      to: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/#{name}",
+      target: "_blank",
+      title: "View documentation for the '#{name}' header")
   end
 
   @doc """

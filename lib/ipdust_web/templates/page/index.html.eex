@@ -16,7 +16,7 @@
 <h2>HTTP Headers</h2>
 <pre>
 <%= for {name, value} <- @headers do %>
-<div><span class="header-name"><%= name %></span>: <span class="header-value"><%= value %></span></div>
+<div><span class="header-name"><%= link_to_header_doc(name) %></span>: <span class="header-value"><%= value %></span></div>
 <% end %>
 </pre>
 
