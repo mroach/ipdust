@@ -6,6 +6,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
+a {
+  color: #0366d6;
+}
+
 pre {
   padding-left: 0.5em;
   border-width: 0;
@@ -14,10 +18,6 @@ pre {
   white-space: normal;
   overflow-x: auto;
   white-space: nowrap;
-}
-
-pre a {
-  color: inherit;
 }
 
 .header-name {
