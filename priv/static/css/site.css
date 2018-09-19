@@ -15,9 +15,11 @@ pre {
   border-width: 0;
 
   /* allows browsers that don't support CSS to see something decent */
-  white-space: normal;
   overflow-x: auto;
-  white-space: nowrap;
+}
+
+pre > div {
+  display: inline;
 }
 
 .header-name {
