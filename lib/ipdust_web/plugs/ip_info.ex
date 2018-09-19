@@ -31,7 +31,18 @@ defmodule IpdustWeb.Plugs.IpInfo do
   end
 
   def assign_geoip_fields(conn, ip) when is_tuple(ip), do: assign_geoip_fields(conn, ip_to_string(ip))
-  def assign_geoip_fields(conn, ip) do
+
+  def assign_geoip_fields(conn, ip) when is_binary(ip) do
+    case RDAP.IP.special?(ip) do
+      true ->
+        Logger.info "Not doing GeoIP lookup for special IP #{ip}"
+        assign(conn, :geoip_success, false)
+      _ ->
+        query_and_assign_geoip_fields(conn, ip)
+    end
+  end
+
+  def query_and_assign_geoip_fields(conn, ip) do
     case Geolix.lookup(ip, where: :city) do
       nil ->
         Logger.info "GeoIP failed for #{ip}"
