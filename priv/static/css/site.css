@@ -9,9 +9,30 @@ h1, h2, h3, h4, h5, h6 {
 pre {
   padding-left: 0.5em;
   border-width: 0;
+
+  /* allows browsers that don't support CSS to see something decent */
+  white-space: normal;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+pre a {
+  color: inherit;
 }
 
 .header-name {
   text-decoration: underline;
   opacity: 0.7;
+}
+
+@media only screen and (max-width: 900px) {
+  h1 { font-size: 3rem }
+  h2 { font-size: 2rem }
+  .container {
+    padding: 0 0.5rem;
+  }
+  .header-value {
+    display: block;
+    padding-left: 0.5rem;
+  }
 }

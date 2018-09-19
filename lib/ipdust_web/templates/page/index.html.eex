@@ -3,20 +3,20 @@
 </header>
 
 <pre>
-Hostname:   <%= @hostname %>
-HTTPS:      <%= if @is_https, do: "Yes", else: "No" %>
+<div>Hostname:   <%= @hostname %></div>
+<div>HTTPS:      <%= if @is_https, do: "Yes", else: "No" %></div>
 <%= if @geoip_success do %>
-GeoIP:      <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %>
+<div>GeoIP:      <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %></div>
 <% end %>
-WHOIS/RDAP: <%= link("WHOIS/RDAP Query", to: "/net") %>
+<div>WHOIS/RDAP: <%= link("WHOIS/RDAP Query", to: "/net") %></div>
 
-Server time: <%= date_time_format(@server_time) %>
+<div>Server time: <%= date_time_format(@server_time) %></div>
 </pre>
 
-<h3>HTTP Headers</h3>
+<h2>HTTP Headers</h2>
 <pre>
 <%= for {name, value} <- @headers do %>
-<span class="header-name"><%= name %></span>: <%= value %>
+<div><span class="header-name"><%= name %></span>: <span class="header-value"><%= value %></span></div>
 <% end %>
 </pre>
 
