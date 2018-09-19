@@ -47,10 +47,6 @@ jobs:
           key: v1-build-cache
           paths: "_build"
 
-      - run:
-          name: Wait for database
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
       - run: mix test
       - run: mix credo --strict
 
