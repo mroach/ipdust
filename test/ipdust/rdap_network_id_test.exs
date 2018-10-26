@@ -58,6 +58,16 @@ defmodule Ipdust.RDAPNetworkIdTest do
     assert "Derpanet" == RDAPNetworkId.remark_description(response)
   end
 
+  test "finds the description in the remarks when there are multiple descriptors" do
+    response = %Response{
+      raw_response: %{
+        remarks: [%{description: ["Derpanet", "More info"]}]
+      }
+    }
+
+    assert "Derpanet" == RDAPNetworkId.remark_description(response)
+  end
+
   test "given a response with a registrant, uses it" do
     response = %Response{entities: [
       %Entity{

@@ -63,7 +63,7 @@ defmodule Ipdust.RDAPNetworkId do
       ...> Ipdust.RDAPNetworkId.remark_description(response)
       "Derpanet"
   """
-  def remark_description(%Response{raw_response: %{remarks: [%{description: [desc]}]}} = _) do
+  def remark_description(%Response{raw_response: %{remarks: [%{description: [desc | _tail]}]}}) do
     desc
   end
   def remark_description(_), do: nil
