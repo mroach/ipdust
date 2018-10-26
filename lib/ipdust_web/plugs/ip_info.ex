@@ -56,13 +56,13 @@ defmodule IpdustWeb.Plugs.IpInfo do
     end
   end
 
-  def assign_geoip_city(conn, %Geolix.Record.City{name: city} = _) do
+  def assign_geoip_city(conn, %Geolix.Record.City{name: city}) do
     conn
     |> assign(:geoip_city, city)
   end
   def assign_geoip_city(conn, nil), do: conn
 
-  def assign_geoip_country(conn, %Geolix.Record.Country{name: country, iso_code: code} = _) do
+  def assign_geoip_country(conn, %Geolix.Record.Country{name: country, iso_code: code}) do
     conn
     |> assign(:geoip_country, country)
     |> assign(:geoip_country_iso, code)
@@ -86,7 +86,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
       ...> |> IpdustWeb.Plugs.IpInfo.is_https
       true
   """
-  def is_https(%Plug.Conn{scheme: :https} = _), do: true
+  def is_https(%Plug.Conn{scheme: :https}), do: true
   def is_https(%Plug.Conn{} = conn) do
     case get_req_header(conn, "x-forwarded-proto") do
       ["https"] -> true

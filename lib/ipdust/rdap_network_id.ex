@@ -20,10 +20,10 @@ defmodule Ipdust.RDAPNetworkId do
   end
   def identify(_), do: nil
 
-  def network_name(%Response{raw_response: %{name: name}} = _), do: name
+  def network_name(%Response{raw_response: %{name: name}}), do: name
   def network_name(_), do: nil
 
-  def entity_descriptor(%Entity{vcard: %VCard{formatted_name: name}} = _), do: name
+  def entity_descriptor(%Entity{vcard: %VCard{formatted_name: name}}), do: name
   def entity_descriptor(%Entity{vcard: %VCard{address: addr}}) do
     VCard.Address.addressee(addr)
   end
@@ -40,7 +40,7 @@ defmodule Ipdust.RDAPNetworkId do
   or "technical". Why? No idea. So this recursively searches the entities and finds
   the first one with the registrant role
   """
-  def entity_with_role(%Response{entities: entities} = _, role) when is_binary(role) do
+  def entity_with_role(%Response{entities: entities}, role) when is_binary(role) do
     entity_with_role(entities, role)
   end
   def entity_with_role(entities, role) when is_list(entities) and is_binary(role) do
