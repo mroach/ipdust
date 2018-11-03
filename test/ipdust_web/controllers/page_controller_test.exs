@@ -6,11 +6,30 @@ defmodule IpdustWeb.PageControllerTest do
     assert html_response(conn, 200) =~ "Hostname"
   end
 
-  test "GET /json behind proxy", %{conn: conn} do
-    response = conn
-    |> put_req_header("x-real-ip", "24.34.153.229")
-    |> get("/json")
+  test "GET / behing proxy server", %{conn: conn} do
+    response =
+      conn
+      |> put_req_header("via", "proxy.baddudes.net")
+      |> get("/")
+
+    assert html_response(response, 200) =~ "proxy-warning"
+  end
+
+  test "GET /json behind load balancer", %{conn: conn} do
+    response =
+      conn
+      |> put_req_header("x-real-ip", "24.34.153.229")
+      |> get("/json")
 
     assert json_response(response, 200)["ip"] == "24.34.153.229"
+  end
+
+  test "GET /json behind proxy", %{conn: conn} do
+    response =
+      conn
+      |> put_req_header("via", "proxy.baddudes.net")
+      |> get("/json")
+
+    assert json_response(response, 200)["proxied"] == true
   end
 end

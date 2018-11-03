@@ -25,6 +25,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign(:remote_ip, ip_to_string(remote_ip))
     |> assign(:hostname, hostname(remote_ip))
     |> assign(:is_https, is_https(conn))
+    |> assign(:is_proxied, is_proxied(conn))
     |> assign(:server_time, DateTime.utc_now)
     |> assign_headers()
     |> assign_geoip_fields(remote_ip)
@@ -91,6 +92,21 @@ defmodule IpdustWeb.Plugs.IpInfo do
     case get_req_header(conn, "x-forwarded-proto") do
       ["https"] -> true
       _ -> false
+    end
+  end
+
+  @doc """
+  Determine if the request is being proxied by checking for presence of the `via` header
+
+  ## Example:
+    iex> conn = Plug.Conn.put_req_header(%Plug.Conn{}, "via", "proxy.junk.net")
+    ...> IpdustWeb.Plugs.IpInfo.is_proxied(conn)
+    true
+  """
+  def is_proxied(%Plug.Conn{} = conn) do
+    case get_req_header(conn, "via") do
+      [] -> false
+      _ -> true
     end
   end
 

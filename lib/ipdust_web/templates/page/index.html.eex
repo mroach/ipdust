@@ -9,9 +9,16 @@
 <div>GeoIP:       <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %></div>
 <% end %>
 <div>WHOIS/RDAP:  <%= link("WHOIS/RDAP Query", to: "/net") %></div>
-
 <div>Server time: <%= date_time_format(@server_time) %></div>
 </pre>
+
+<%= if @is_proxied do %>
+<p class="proxy-warning">
+<strong>Warning</strong>: Your request was sent through a proxy server!
+Consider using HTTPS or a VPN on this connection.
+</p>
+<% end %>
+
 
 <h2>HTTP Headers</h2>
 <pre id="http-headers">

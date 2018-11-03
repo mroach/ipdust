@@ -11,6 +11,7 @@ defmodule IpdustWeb.PageView do
     %{
       ip: params.remote_ip,
       https: params.is_https,
+      proxied: params.is_proxied,
       host: params.hostname,
       server_time: params.server_time,
       headers: params.headers |> Enum.into(%{})

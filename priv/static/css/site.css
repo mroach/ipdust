@@ -38,3 +38,9 @@ pre > div {
     padding-left: 0.5rem;
   }
 }
+
+.proxy-warning {
+  background-color: #b95000;
+  color: #fff4ec;
+  padding: 0.5em;
+}
