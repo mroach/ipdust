@@ -24,6 +24,17 @@ defmodule IpdustWeb.PageControllerTest do
     assert json_response(response, 200)["ip"] == "24.34.153.229"
   end
 
+  test "GET /json country info", %{conn: conn} do
+    response =
+      conn
+      |> put_req_header("x-real-ip", "24.34.153.229")
+      |> get("/json")
+
+      expected = %{"name" => "United States", "code" => "US"}
+
+    assert json_response(response, 200)["country"] == expected
+  end
+
   test "GET /json behind proxy", %{conn: conn} do
     response =
       conn
