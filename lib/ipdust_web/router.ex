@@ -13,5 +13,6 @@ defmodule IpdustWeb.Router do
     get "/", PageController, :index
     get "/net", PageController, :net
     get "/json", PageController, :json
+    get "/ip", PageController, :ip
   end
 end

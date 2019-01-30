@@ -25,6 +25,10 @@ defmodule IpdustWeb.PageView do
     } |> Map.merge(geoip)
   end
 
+  def render("ip.txt", params) do
+    params.remote_ip
+  end
+
   def link_to_header_doc(name) do
     link(name,
       to: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/#{name}",

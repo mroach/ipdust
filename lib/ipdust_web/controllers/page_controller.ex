@@ -22,4 +22,8 @@ defmodule IpdustWeb.PageController do
   def json(conn, _params) do
     render conn, "json.json"
   end
+
+  def ip(conn, _params) do
+    render conn, "ip.txt"
+  end
 end
