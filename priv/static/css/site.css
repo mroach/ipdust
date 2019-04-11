@@ -1,14 +1,21 @@
-body {
-  font-size: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,700');
+
+html, body {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  box-sizing: border-box;
+  max-width: 1024px;
+  padding: 10px;
+  background-color: #FFF7E9;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
+  font-style: italic;
+  margin-bottom: 2rem;
 }
 
 a {
-  color: #0366d6;
+  color: #0013FF;
 }
 
 pre {
@@ -17,6 +24,7 @@ pre {
 
   /* allows browsers that don't support CSS to see something decent */
   overflow-x: auto;
+  background-color: #AEB2C3;
 }
 
 pre > div {
@@ -29,20 +37,61 @@ pre > div {
 }
 
 @media only screen and (max-width: 900px) {
-  h1 { font-size: 3rem }
-  h2 { font-size: 2rem }
-  .container {
-    padding: 0 0.5rem;
-  }
-  .header-value {
+  table td,
+  table th,
+  table tr {
     display: block;
-    padding-left: 0.5rem;
+    padding: 0;
   }
-  pre { line-height: 1.2em; }
+  table tr { margin-bottom: 0.5em; }
 }
 
 .proxy-warning {
   background-color: #b95000;
   color: #fff4ec;
   padding: 0.5em;
+}
+
+.solaris {
+  background-color: #C1C1C1;
+  padding: 8px;
+  box-shadow:
+    0 0 0 10px #B24D7A,
+    5px 5px 0 10px #57253B;
+  margin: 20px 10px 30px;
+}
+
+table.values {
+  min-width: 500px;
+  max-width: 100%;
+}
+table.values th,
+table.values td {
+  padding: 0.3em;
+}
+table.values th {
+  text-align: left;
+  padding-right: 2em;
+  white-space: nowrap;
+}
+
+table.values td {
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.header {
+  background-color: #C1C1C1;
+  box-shadow:
+    0px 0px 0 10px #A59F80,
+    5px 5px 0 10px #5B5746;
+  margin: 10px 10px 40px;
+}
+.header h1 { padding: 0.5em 0.2em; }
+
+hr {
+  border: dotted 2px #B24D7A;
+  margin: 40px 0;
+  display: block;
 }

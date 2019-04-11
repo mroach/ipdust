@@ -1,16 +1,35 @@
 <header class="header">
-  <h1><code><%= @remote_ip %></code></h1>
+  <h1 class="ip"><%= @remote_ip %></h1>
 </header>
 
-<pre>
-<div>Hostname:    <%= @hostname %></div>
-<div>HTTPS:       <%= if @is_https, do: "Yes", else: "No" %></div>
-<%= if @geoip_success do %>
-<div>GeoIP:       <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %></div>
-<% end %>
-<div>WHOIS/RDAP:  <%= link("WHOIS/RDAP Query", to: "/net") %></div>
-<div>Server time: <%= date_time_format(@server_time) %></div>
-</pre>
+<table id="ip-main" class="solaris values">
+  <tr>
+    <th>Hostname</th>
+    <td><%= @hostname %></td>
+  </tr>
+  <tr>
+    <th>HTTPS?</th>
+    <td><%= if @is_https, do: "Yes", else: "No" %></td>
+  </tr>
+  <tr>
+    <th>GeoIP Location</th>
+    <td>
+      <%= if @geoip_success do %>
+        <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %>
+      <% else %>
+        <em>Unavailable</em>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <th>WHOIS/RDAP</th>
+    <td><%= link("WHOIS/RDAP Query", to: "/net") %></td>
+  </tr>
+  <tr>
+    <th>Server Time</th>
+    <td><%= date_time_format(@server_time) %></td>
+  </tr>
+</table>
 
 <%= if @is_proxied do %>
 <p class="proxy-warning">
@@ -21,11 +40,14 @@ Consider using HTTPS or a VPN on this connection.
 
 
 <h2>HTTP Headers</h2>
-<pre id="http-headers">
+<table id="http-headers" class="solaris values">
 <%= for {name, value} <- @headers do %>
-<div><span class="header-name"><%= link_to_header_doc(name) %></span>: <span class="header-value"><%= value %></span></div>
+  <tr>
+    <th><%= link_to_header_doc(name) %></th>
+    <td><%= value %></td>
+  </tr>
 <% end %>
-</pre>
+</table>
 
 <hr />
 

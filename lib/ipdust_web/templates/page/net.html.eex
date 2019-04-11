@@ -1,6 +1,6 @@
 <header class="header">
-  <h1><code><%= @network_id %></code></h1>
+  <h1><%= @network_id %></h1>
 </header>
 
-<h3>RDAP/WHOIS Information</h3>
+<h2>RDAP/WHOIS Information</h2>
 <pre><%= @raw_response %></pre>

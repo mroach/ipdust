@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title><%= @remote_ip %></title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/milligram.min.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/normalize.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/site.css") %>">
   </head>
 
