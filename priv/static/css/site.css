@@ -4,7 +4,7 @@ html, body {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
   box-sizing: border-box;
-  max-width: 1024px;
+  width: 100%;
   padding: 10px;
   background-color: #FFF7E9;
 }
@@ -27,27 +27,8 @@ pre {
   background-color: #AEB2C3;
 }
 
-pre > div {
-  display: inline;
-}
-
-.header-name {
-  text-decoration: underline;
-  opacity: 0.7;
-}
-
-@media only screen and (max-width: 900px) {
-  table td,
-  table th,
-  table tr {
-    display: block;
-    padding: 0;
-  }
-  table tr { margin-bottom: 0.5em; }
-}
-
 .proxy-warning {
-  background-color: #b95000;
+  background-color: #729C9C;
   color: #fff4ec;
   padding: 0.5em;
 }
@@ -94,4 +75,17 @@ hr {
   border: dotted 2px #B24D7A;
   margin: 40px 0;
   display: block;
+}
+
+@media only screen and (max-width: 900px) {
+  table td,
+  table th,
+  table tr {
+    display: block;
+    padding: 0;
+  }
+  table tr { margin-bottom: 0.5em; }
+  html, body {
+    padding: 5px;
+  }
 }
