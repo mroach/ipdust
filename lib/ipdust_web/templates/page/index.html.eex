@@ -1,18 +1,24 @@
-<header class="header">
-  <h1 class="ip"><%= @remote_ip %></h1>
-</header>
-
-<table id="ip-main" class="solaris values">
+<table bgcolor="#A59F80" border="5" bordercolor="#5B5746" width="500" cellspacing="0" cellpadding="10" rules="none">
   <tr>
-    <th>Hostname</th>
+    <td>
+      <h1 class="ip"><%= @remote_ip %></h1>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<table id="ip-main" class="values" border="10" bordercolor="#B24D7A" bgcolor="#BBB9C8" cellspacing="0" cellpadding="4" rules="rows" width="500">
+  <tr>
+    <th align="right">Hostname</th>
     <td><%= @hostname %></td>
   </tr>
   <tr>
-    <th>HTTPS?</th>
+    <th align="right">HTTPS?</th>
     <td><%= if @is_https, do: "Yes", else: "No" %></td>
   </tr>
   <tr>
-    <th>GeoIP Location</th>
+    <th align="right">GeoIP Location</th>
     <td>
       <%= if @geoip_success do %>
         <%= @conn.assigns[:geoip_city] || "Unknown city" %>, <%= @conn.assigns[:geoip_country] %>
@@ -22,11 +28,11 @@
     </td>
   </tr>
   <tr>
-    <th>WHOIS/RDAP</th>
+    <th align="right">WHOIS/RDAP</th>
     <td><%= link("WHOIS/RDAP Query", to: "/net") %></td>
   </tr>
   <tr>
-    <th>Server Time</th>
+    <th align="right">Server Time</th>
     <td><%= date_time_format(@server_time) %></td>
   </tr>
 </table>
@@ -40,10 +46,10 @@ Consider using HTTPS or a VPN on this connection.
 
 
 <h2>HTTP Headers</h2>
-<table id="http-headers" class="solaris values">
+<table id="http-headers" class="values" border="10" bordercolor="#B24D7A" bgcolor="#BBB9C8" cellspacing="0" cellpadding="4" rules="rows">
 <%= for {name, value} <- @headers do %>
   <tr>
-    <th><%= link_to_header_doc(name) %></th>
+    <th align="right" valign="top" nowrap="nowrap"><%= link_to_header_doc(name) %></th>
     <td><%= value %></td>
   </tr>
 <% end %>

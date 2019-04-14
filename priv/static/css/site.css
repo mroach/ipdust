@@ -51,8 +51,8 @@ table.values td {
   padding: 0.3em;
 }
 table.values th {
-  text-align: left;
-  padding-right: 2em;
+  text-align: right;
+  padding: 0.5em 2em;
   white-space: nowrap;
 }
 
@@ -71,6 +71,8 @@ table.values td {
 }
 .header h1 { padding: 0.5em 0.2em; }
 
+h1.ip { line-height: 1; margin: 0; }
+
 hr {
   border: dotted 2px #B24D7A;
   margin: 40px 0;
@@ -88,4 +90,10 @@ hr {
   html, body {
     padding: 5px;
   }
+
+  table.values th {
+    text-align: left;
+    padding: 0.3em;
+  }
+  table.values tr { border-bottom: 0 }
 }
