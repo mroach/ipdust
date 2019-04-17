@@ -4,10 +4,6 @@ defmodule IpdustWeb.UserSocket do
   ## Channels
   # channel "room:*", IpdustWeb.RoomChannel
 
-  ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
-  # transport :longpoll, Phoenix.Transports.LongPoll
-
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into

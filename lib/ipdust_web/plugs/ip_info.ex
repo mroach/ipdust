@@ -57,13 +57,13 @@ defmodule IpdustWeb.Plugs.IpInfo do
     end
   end
 
-  def assign_geoip_city(conn, %Geolix.Record.City{name: city}) do
+  def assign_geoip_city(conn, %{name: city}) do
     conn
     |> assign(:geoip_city, city)
   end
   def assign_geoip_city(conn, nil), do: conn
 
-  def assign_geoip_country(conn, %Geolix.Record.Country{name: country, iso_code: code}) do
+  def assign_geoip_country(conn, %{name: country, iso_code: code}) do
     conn
     |> assign(:geoip_country, country)
     |> assign(:geoip_country_iso, code)

@@ -3,7 +3,8 @@ defmodule IpdustWeb.Endpoint do
 
   plug RemoteIp
 
-  socket "/socket", IpdustWeb.UserSocket
+  socket "/socket", IpdustWeb.UserSocket,
+    websocket: true
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -26,7 +27,7 @@ defmodule IpdustWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
 
   plug Plug.MethodOverride
   plug Plug.Head

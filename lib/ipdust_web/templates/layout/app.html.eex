@@ -8,8 +8,8 @@
     <meta name="author" content="">
 
     <title><%= @remote_ip %></title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/normalize.css") %>">
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/site.css") %>">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/normalize.css") %>">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/site.css") %>">
   </head>
 
   <body>

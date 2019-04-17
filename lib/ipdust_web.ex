@@ -21,8 +21,8 @@ defmodule IpdustWeb do
     quote do
       use Phoenix.Controller, namespace: IpdustWeb
       import Plug.Conn
-      import IpdustWeb.Router.Helpers
       import IpdustWeb.Gettext
+      alias IpdustWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -37,9 +37,10 @@ defmodule IpdustWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import IpdustWeb.Router.Helpers
       import IpdustWeb.ErrorHelpers
       import IpdustWeb.Gettext
+
+      alias IpdustWeb.Router.Helpers, as: Routes
     end
   end
 
