@@ -4,7 +4,7 @@
 # == Base
 # Elixir base image for running development server and tools and
 # for building a production release
-FROM elixir:1.7-alpine AS phoenix_base
+FROM elixir:1.8-alpine AS phoenix_base
 
 RUN mix do local.hex --force, local.rebar --force
 
@@ -20,8 +20,7 @@ COPY lib/ ./lib
 COPY priv/ ./priv
 COPY test/ ./test
 
-RUN mix deps.get
-
+CMD mix do deps.get, phx.server
 
 ################################################################################
 # == Production release builder

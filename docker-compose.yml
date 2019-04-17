@@ -5,7 +5,6 @@ services:
     build:
       context: .
       target: phoenix_base
-    command: mix phx.server
     ports:
       - "4000:4000"
     volumes:
