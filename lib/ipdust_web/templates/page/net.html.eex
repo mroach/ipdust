@@ -1,6 +1,10 @@
-<header class="header">
-  <h1><%= @network_id %></h1>
-</header>
+<table bgcolor="#A59F80" border="5" bordercolor="#5B5746" width="100%" cellspacing="0" cellpadding="10" rules="none">
+  <tr>
+    <td>
+      <h1 class="main"><%= @network_id %></h1>
+    </td>
+  </tr>
+</table>
 
 <h2>RDAP/WHOIS Information</h2>
 <pre><%= @raw_response %></pre>

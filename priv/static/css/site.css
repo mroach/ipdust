@@ -71,7 +71,7 @@ table.values td {
 }
 .header h1 { padding: 0.5em 0.2em; }
 
-h1.ip { line-height: 1; margin: 0; }
+h1.main { line-height: 1; margin: 0; }
 
 hr {
   border: dotted 2px #B24D7A;

@@ -1,7 +1,7 @@
 <table bgcolor="#A59F80" border="5" bordercolor="#5B5746" width="500" cellspacing="0" cellpadding="10" rules="none">
   <tr>
     <td>
-      <h1 class="ip"><%= @remote_ip %></h1>
+      <h1 class="main"><%= @remote_ip %></h1>
     </td>
   </tr>
 </table>
