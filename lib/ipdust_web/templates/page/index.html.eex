@@ -8,7 +8,7 @@
 
 <br />
 
-<table id="ip-main" class="values" border="10" bordercolor="#B24D7A" bgcolor="#BBB9C8" cellspacing="0" cellpadding="4" rules="rows" width="500">
+<table id="ip-main" class="values" border="10" bordercolor="#B24D7A" bgcolor="#BBB9C8" cellspacing="0" cellpadding="4" rules="rows">
   <tr>
     <th align="right">Hostname</th>
     <td><%= @hostname %></td>
