@@ -31,31 +31,40 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign_geoip_fields(remote_ip)
   end
 
-  def assign_geoip_fields(conn, ip) when is_tuple(ip), do: assign_geoip_fields(conn, ip_to_string(ip))
+  def assign_geoip_fields(conn, ip) when is_tuple(ip),
+    do: assign_geoip_fields(conn, ip_to_string(ip))
 
-  def assign_geoip_fields(conn, ip) when is_binary(ip) do
-    case RDAP.IP.special?(ip) do
-      true ->
-        Logger.info "Not doing GeoIP lookup for special IP #{ip}"
-        assign(conn, :geoip_success, false)
-      _ ->
-        query_and_assign_geoip_fields(conn, ip)
-    end
-  end
+  def assign_geoip_fields(conn, ip) when is_binary(ip),
+    do: query_and_assign_geoip_fields(conn, ip)
 
   def query_and_assign_geoip_fields(conn, ip) do
-    case Geolix.lookup(ip, where: :city) do
-      nil ->
-        Logger.info "GeoIP failed for #{ip}"
-        assign(conn, :geoip_success, false)
-      result ->
-        Logger.info "GeoIP success for #{ip} #{result.country.iso_code}"
-        conn
-        |> assign(:geoip_success, true)
-        |> assign_geoip_city(result.city)
-        |> assign_geoip_country(result.country)
-    end
+    result = Geolix.lookup(ip)
+
+    conn
+    |> maybe_assign_geoip_location(result)
+    |> maybe_assign_geoip_asn(result)
   end
+
+  def maybe_assign_geoip_location(conn, %{city: result}) when result != nil do
+    Logger.info "GeoIP success: #{result.country.iso_code}"
+
+    conn
+    |> assign(:geoip_success, true)
+    |> assign_geoip_city(result.city)
+    |> assign_geoip_country(result.country)
+  end
+  def maybe_assign_geoip_location(conn, _),
+    do: assign(conn, :geoip_success, false)
+
+  def maybe_assign_geoip_asn(conn, %{asn: result}) when result != nil do
+    Logger.info("GeoIP ASN success: #{result.autonomous_system_organization}")
+
+    conn
+    |> assign(:geoip_asn_success, true)
+    |> assign_geoip_asn_name(result)
+  end
+  def maybe_assign_geoip_asn(conn, _),
+    do: assign(conn, :geoip_asn_success, false)
 
   def assign_geoip_city(conn, %{name: city}) do
     conn
@@ -69,6 +78,10 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign(:geoip_country_iso, code)
   end
   def assign_geoip_country(conn, nil), do: conn
+
+  def assign_geoip_asn_name(conn, %{autonomous_system_organization: name}),
+    do: assign(conn, :geoip_asn_name, name)
+  def assign_geoip_asn_name(conn, _), do: conn
 
   def assign_headers(conn) do
     conn |> assign(:headers, filtered_headers(conn))

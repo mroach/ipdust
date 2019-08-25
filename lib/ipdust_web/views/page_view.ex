@@ -15,6 +15,13 @@ defmodule IpdustWeb.PageView do
       _ -> %{}
     end
 
+    asn =
+      if params.geoip_asn_success do
+        %{asn: %{name: params[:geoip_asn_name]}}
+      else
+        %{}
+      end
+
     %{
       ip: params.remote_ip,
       https: params.is_https,
@@ -22,7 +29,9 @@ defmodule IpdustWeb.PageView do
       host: params.hostname,
       server_time: params.server_time,
       headers: params.headers |> Enum.into(%{})
-    } |> Map.merge(geoip)
+    }
+    |> Map.merge(geoip)
+    |> Map.merge(asn)
   end
 
   def render("ip.txt", params) do

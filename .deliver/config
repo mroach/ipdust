@@ -15,9 +15,15 @@ pre_erlang_get_and_update_deps() {
     __sync_remote "
       ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
     "
-    status "Downloading MaxMind GeoIP City 2 Lite database"
+
+    status "Downloading MaxMind GeoIP City database"
     __sync_remote "
       curl -o '$BUILD_AT/priv/geoip/GeoLite2-City.tar.gz' http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz
+    "
+
+    status "Downloading MaxMind GeoIP ASN database"
+    __sync_remote "
+      curl -o '$BUILD_AT/priv/geoip/GeoLite2-ASN.tar.gz' http://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN.tar.gz
     "
   fi
 }
