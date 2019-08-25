@@ -161,8 +161,8 @@ defmodule IpdustWeb.Plugs.IpInfo do
       iex> IpdustWeb.Plugs.IpInfo.hostname({127, 0, 0, 1})
       "localhost"
 
-      iex> IpdustWeb.Plugs.IpInfo.hostname({8, 8, 8, 8})
-      "google-public-dns-a.google.com"
+      IpdustWeb.Plugs.IpInfo.hostname({8, 8, 8, 8})
+      "dns.google"
   """
   def hostname(ip) when is_tuple(ip) do
     case :inet.gethostbyaddr(ip) do
