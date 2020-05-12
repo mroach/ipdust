@@ -15,8 +15,8 @@ use Mix.Config
 # which you typically run after static files are built.
 config :ipdust, IpdustWeb.Endpoint,
   load_from_system_env: false,
-  http: [port: 4000],
-  url: [host: "localhost", port: 4000],
+  http: [port: 80],
+  url: [host: "localhost", port: 80],
   server: true,
   code_reloader: false
 
