@@ -76,8 +76,6 @@ ARG app_version=unknown
 LABEL git.commit=${git_commit} \
       app.version=${app_version}
 
-ENV PORT 80
-
 EXPOSE 80
 
 # bash and openssl are required to run the release
