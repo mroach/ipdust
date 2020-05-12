@@ -32,7 +32,6 @@ VOLUME /opt/app
 COPY mix.exs mix.lock ./
 
 RUN mix do deps.get, deps.compile
-RUN env MIX_ENV=test mix deps.compile
 
 COPY config/ ./config
 COPY lib/ ./lib
