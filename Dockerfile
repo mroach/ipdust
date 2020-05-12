@@ -4,7 +4,7 @@
 # == Base
 # Elixir base image for running development server and tools and
 # for building a production release
-FROM elixir:1.8-alpine AS phoenix_base
+FROM elixir:1.10-alpine AS phoenix_base
 
 RUN mix do local.hex --force, local.rebar --force
 
