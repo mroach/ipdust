@@ -8,6 +8,11 @@ TAG = $(APP)_elixir_$(ELIXIR_VER)
 VERSION = $(shell cat VERSION)
 GIT_COMMIT = $(shell git rev-parse --verify HEAD)
 
+word-dot = $(word $2,$(subst ., ,$1))
+VERSION_MAJOR = $(call word-dot,$(VERSION),1)
+VERSION_MINOR = $(call word-dot,$(VERSION),2)
+VERSION_PATCH = $(call word-dot,$(VERSION),3)
+
 build-base:
 	docker build --build-arg elixir_ver=$(ELIXIR_VER) --target base -t $(TAG) .
 
@@ -43,8 +48,13 @@ release:
 		--build-arg maxmind_license=$(MAXMIND_LICENSE) \
 		--target release \
 		--tag $(DOCKER_ORG)/$(APP):$(VERSION) .
+
 	docker tag $(DOCKER_ORG)/$(APP):$(VERSION) $(DOCKER_ORG)/$(APP):latest
+	docker tag $(DOCKER_ORG)/$(APP):$(VERSION) $(DOCKER_ORG)/$(APP):$(VERSION_MAJOR).$(VERSION_MINOR)
+	docker tag $(DOCKER_ORG)/$(APP):$(VERSION) $(DOCKER_ORG)/$(APP):$(VERSION_MAJOR)
 
 push-release: release
 	docker push $(DOCKER_ORG)/$(APP):$(VERSION)
+	docker push $(DOCKER_ORG)/$(APP):$(VERSION_MAJOR)
+	docker push $(DOCKER_ORG)/$(APP):$(VERSION_MAJOR).$(VERSION_MINOR)
 	docker push $(DOCKER_ORG)/$(APP):latest
