@@ -1,4 +1,4 @@
-.PHONY: build-base push-release release serve shell test test-credo test-format
+.PHONY: build-base new-version push-release release serve shell test test-credo test-format
 
 ELIXIR_VER = 1.10
 PORT = 4000
@@ -38,6 +38,23 @@ test-credo: build-base
 
 test-format: build-base
 	docker run --rm -v $(PWD):/opt/app $(TAG) mix format --check-formatted
+
+new-version:
+	@echo "This will:"
+	@echo "  - Update the VERSION file"
+	@echo "  - Commit the VERSION file with 'Version vx.x.x' as the message"
+	@echo "  - Create a git tag named vx.x.x"
+	@echo "  - Push the tag to GitHub"
+	@echo
+
+	@echo Current version is $(VERSION)
+	@read -p "New version: " new_version; \
+	echo $$new_version > VERSION; \
+	git add VERSION; \
+	git commit -m "Version $$new_version"; \
+	git tag v$$new_version; \
+	git push origin refs/tags/v$$new_version
+
 
 release:
 	@echo Building version $(VERSION)
