@@ -1,4 +1,4 @@
-.PHONY: build-base push-release release serve shell test test-credo
+.PHONY: build-base push-release release serve shell test test-credo test-format
 
 ELIXIR_VER = 1.10
 PORT = 4000
@@ -30,6 +30,9 @@ test: build-base
 
 test-credo: build-base
 	docker run --rm -v $(PWD):/opt/app $(TAG) mix credo --strict
+
+test-format: build-base
+	docker run --rm -v $(PWD):/opt/app $(TAG) mix format --check-formatted
 
 release:
 	@echo Building version $(VERSION)

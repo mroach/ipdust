@@ -21,3 +21,6 @@ jobs:
 
       - name: Credo
         run: make test-credo
+
+      - name: Check formatting
+        run: make test-format
