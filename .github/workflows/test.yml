@@ -13,8 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build test image
-        run: make build-test
+      - name: Build base image
+        run: make build-base
 
       - name: Unit tests
         run: make test
