@@ -87,4 +87,4 @@ WORKDIR /opt/app
 
 COPY --from=release_builder /opt/mix/build/prod/rel/ipdust/ .
 
-CMD ["bin/ipdust", "foreground"]
+CMD ["bin/ipdust", "start"]
