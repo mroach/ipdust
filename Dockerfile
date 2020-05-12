@@ -4,23 +4,43 @@
 # == Base
 # Elixir base image for running development server and tools and
 # for building a production release
-FROM elixir:1.8-alpine AS phoenix_base
+ARG elixir_ver=1.10
+
+FROM elixir:${elixir_ver}-alpine AS base
 
 RUN mix do local.hex --force, local.rebar --force
 
 # Need inotify for watchers to work
 # Need git since the rdap dependency is only on github
-RUN apk --no-cache add inotify-tools git
+RUN apk --no-cache add \
+      inotify-tools \
+      git \
+      bash \
+      curl
 
-WORKDIR /app
+# read in mix.exs to set the paths for dependencies and build output.
+# for local development on non-Linux hosts, this circumvents an I/O bottleneck
+# and allows for easily testing against multiple versions of Elixir.
+ENV MIX_DEPS_PATH=/opt/mix/deps \
+    MIX_BUILD_PATH_ROOT=/opt/mix/build \
+    MIX_ENV=dev \
+    PS1="\u@\h:\w \$ "
+
+WORKDIR /opt/app
+VOLUME /opt/app
 
 COPY mix.exs mix.lock ./
+
+RUN mix do deps.get, deps.compile
+RUN env MIX_ENV=test mix deps.compile
+
 COPY config/ ./config
 COPY lib/ ./lib
 COPY priv/ ./priv
 COPY test/ ./test
 
-CMD mix do deps.get, phx.server
+CMD ["mix", "do", "deps.get,", "phx.server"]
+
 
 ################################################################################
 # == Production release builder
@@ -28,31 +48,43 @@ CMD mix do deps.get, phx.server
 # This will use distillery to create a tarball of binaries and static files
 # needed to run the app. Then we only need those files in a container for
 # the app to run. We don't need Elixir, Erlang, anything else.
-FROM phoenix_base AS release_builder
+FROM base AS release_builder
 
-ENV MIX_ENV prod
+ENV MIX_ENV=prod \
+    MIX_BUILD_PATH=/opt/mix/build/prod
 
-COPY rel/ ./rel
+ARG maxmind_license
 
-RUN mix release --env=prod
+RUN curl -Lfo priv/geoip/GeoLite2-City.tar.gz \
+    "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${maxmind_license}&suffix=tar.gz"
+
+RUN curl -Lfo priv/geoip/GeoLite2-ASN.tar.gz \
+    "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=${maxmind_license}&suffix=tar.gz"
+
+RUN mix release
 
 
 ################################################################################
 # == Production runnable image
 #
 # Final production-ready image. Only contains the app binaries and static assets
-FROM alpine:latest AS ipdust_prod
+FROM alpine:latest AS release
 
-ENV MIX_ENV prod
-ENV PORT 4000
+ARG git_commit=unknown
+ARG app_version=unknown
 
-EXPOSE 4000
+LABEL git.commit=${git_commit} \
+      app.version=${app_version}
+
+ENV PORT 80
+
+EXPOSE 80
 
 # bash and openssl are required to run the release
 RUN apk add --no-cache bash openssl
 
-WORKDIR /app
+WORKDIR /opt/app
 
-COPY --from=release_builder /app/_build/prod/rel/ipdust/ .
+COPY --from=release_builder /opt/mix/build/prod/rel/ipdust/ .
 
 CMD ["bin/ipdust", "foreground"]

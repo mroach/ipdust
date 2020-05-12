@@ -2,48 +2,56 @@ defmodule Ipdust.RDAPNetworkIdTest do
   use ExUnit.Case, async: true
   doctest Ipdust.RDAPNetworkId
 
-  alias Ipdust.{RDAPNetworkId}
+  alias Ipdust.RDAPNetworkId
   alias RDAP.{Entity, Response, VCard}
 
   test "finds registrant entity without nesting" do
-    response = %Response{entities: [
-      %Entity{
-        roles: ["registrant"],
-        vcard: %VCard{formatted_name: "DerpaNet"}
-      }
-    ]}
+    response = %Response{
+      entities: [
+        %Entity{
+          roles: ["registrant"],
+          vcard: %VCard{formatted_name: "DerpaNet"}
+        }
+      ]
+    }
 
-    assert %Entity{vcard: %VCard{formatted_name: "DerpaNet"}} = RDAPNetworkId.entity_with_role(response, "registrant")
+    assert %Entity{vcard: %VCard{formatted_name: "DerpaNet"}} =
+             RDAPNetworkId.entity_with_role(response, "registrant")
   end
 
   test "finds registrant when nested" do
-    response = %Response{entities: [
-      %Entity{
-        roles: ["abuse"],
-        vcard: %VCard{formatted_name: "DerpaNet Abuse"},
-        entities: [
-          %Entity{
-            roles: ["technical"],
-            vcard: %VCard{formatted_name: "DerpaNet Administrator"}
-          },
-          %Entity{
-            roles: ["registrant"],
-            vcard: %VCard{formatted_name: "DerpaNet"}
-          }
-        ]
-      }
-    ]}
+    response = %Response{
+      entities: [
+        %Entity{
+          roles: ["abuse"],
+          vcard: %VCard{formatted_name: "DerpaNet Abuse"},
+          entities: [
+            %Entity{
+              roles: ["technical"],
+              vcard: %VCard{formatted_name: "DerpaNet Administrator"}
+            },
+            %Entity{
+              roles: ["registrant"],
+              vcard: %VCard{formatted_name: "DerpaNet"}
+            }
+          ]
+        }
+      ]
+    }
 
-    assert %Entity{vcard: %VCard{formatted_name: "DerpaNet"}} = RDAPNetworkId.entity_with_role(response, "registrant")
+    assert %Entity{vcard: %VCard{formatted_name: "DerpaNet"}} =
+             RDAPNetworkId.entity_with_role(response, "registrant")
   end
 
   test "returns nil when no registrant available" do
-    response = %Response{entities: [
-      %Entity{
-        roles: ["abuse"],
-        vcard: %VCard{formatted_name: "DerpaNet Abuse"},
-      }
-    ]}
+    response = %Response{
+      entities: [
+        %Entity{
+          roles: ["abuse"],
+          vcard: %VCard{formatted_name: "DerpaNet Abuse"}
+        }
+      ]
+    }
 
     assert nil == RDAPNetworkId.entity_with_role(response, "registrant")
   end
@@ -69,12 +77,14 @@ defmodule Ipdust.RDAPNetworkIdTest do
   end
 
   test "given a response with a registrant, uses it" do
-    response = %Response{entities: [
-      %Entity{
-        roles: ["registrant"],
-        vcard: %VCard{formatted_name: "DerpaNet"},
-      }
-    ]}
+    response = %Response{
+      entities: [
+        %Entity{
+          roles: ["registrant"],
+          vcard: %VCard{formatted_name: "DerpaNet"}
+        }
+      ]
+    }
 
     assert "DerpaNet" = RDAPNetworkId.identify(response)
   end
@@ -84,8 +94,8 @@ defmodule Ipdust.RDAPNetworkIdTest do
       entities: [
         %Entity{
           roles: ["abuse"],
-          vcard: %VCard{formatted_name: "DerpaNet Abuse"},
-        },
+          vcard: %VCard{formatted_name: "DerpaNet Abuse"}
+        }
       ],
       raw_response: %{
         remarks: [%{description: ["Derpanet"]}]
@@ -100,8 +110,8 @@ defmodule Ipdust.RDAPNetworkIdTest do
       entities: [
         %Entity{
           roles: ["abuse"],
-          vcard: %VCard{formatted_name: "Abuse"},
-        },
+          vcard: %VCard{formatted_name: "Abuse"}
+        }
       ],
       raw_response: %{
         name: "Derpanet"

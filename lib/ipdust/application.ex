@@ -12,7 +12,7 @@ defmodule Ipdust.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the endpoint when the application starts
-      supervisor(IpdustWeb.Endpoint, []),
+      supervisor(IpdustWeb.Endpoint, [])
       # Start your own worker by calling: Ipdust.Worker.start_link(arg1, arg2, arg3)
       # worker(Ipdust.Worker, [arg1, arg2, arg3]),
     ]
@@ -32,11 +32,13 @@ defmodule Ipdust.Application do
       adapter: Geolix.Adapter.MMDB2,
       source: Application.app_dir(:ipdust, "priv/geoip/GeoLite2-City.tar.gz")
     })
+
     Geolix.load_database(%{
       id: :asn,
       adapter: Geolix.Adapter.MMDB2,
       source: Application.app_dir(:ipdust, "priv/geoip/GeoLite2-ASN.tar.gz")
     })
+
     result
   end
 

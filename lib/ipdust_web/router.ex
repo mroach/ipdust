@@ -8,7 +8,8 @@ defmodule IpdustWeb.Router do
   end
 
   scope "/", IpdustWeb do
-    pipe_through :browser # Use the default browser stack
+    # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
     get "/net", PageController, :net

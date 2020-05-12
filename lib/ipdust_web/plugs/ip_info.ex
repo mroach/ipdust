@@ -21,12 +21,13 @@ defmodule IpdustWeb.Plugs.IpInfo do
 
   def call(conn, _default) do
     remote_ip = conn.remote_ip
+
     conn
     |> assign(:remote_ip, ip_to_string(remote_ip))
     |> assign(:hostname, hostname(remote_ip))
     |> assign(:is_https, is_https(conn))
     |> assign(:is_proxied, is_proxied(conn))
-    |> assign(:server_time, DateTime.utc_now)
+    |> assign(:server_time, DateTime.utc_now())
     |> assign_headers()
     |> assign_geoip_fields(remote_ip)
   end
@@ -46,13 +47,14 @@ defmodule IpdustWeb.Plugs.IpInfo do
   end
 
   def maybe_assign_geoip_location(conn, %{city: result}) when result != nil do
-    Logger.info "GeoIP success: #{result.country.iso_code}"
+    Logger.info("GeoIP success: #{result.country.iso_code}")
 
     conn
     |> assign(:geoip_success, true)
     |> assign_geoip_city(result.city)
     |> assign_geoip_country(result.country)
   end
+
   def maybe_assign_geoip_location(conn, _),
     do: assign(conn, :geoip_success, false)
 
@@ -63,6 +65,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign(:geoip_asn_success, true)
     |> assign_geoip_asn_name(result)
   end
+
   def maybe_assign_geoip_asn(conn, _),
     do: assign(conn, :geoip_asn_success, false)
 
@@ -70,6 +73,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
     conn
     |> assign(:geoip_city, city)
   end
+
   def assign_geoip_city(conn, nil), do: conn
 
   def assign_geoip_country(conn, %{name: country, iso_code: code}) do
@@ -77,10 +81,12 @@ defmodule IpdustWeb.Plugs.IpInfo do
     |> assign(:geoip_country, country)
     |> assign(:geoip_country_iso, code)
   end
+
   def assign_geoip_country(conn, nil), do: conn
 
   def assign_geoip_asn_name(conn, %{autonomous_system_organization: name}),
     do: assign(conn, :geoip_asn_name, name)
+
   def assign_geoip_asn_name(conn, _), do: conn
 
   def assign_headers(conn) do
@@ -101,6 +107,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
       true
   """
   def is_https(%Plug.Conn{scheme: :https}), do: true
+
   def is_https(%Plug.Conn{} = conn) do
     case get_req_header(conn, "x-forwarded-proto") do
       ["https"] -> true
@@ -134,7 +141,7 @@ defmodule IpdustWeb.Plugs.IpInfo do
   """
   def ip_to_string(ip) when is_tuple(ip) do
     ip
-    |> Tuple.to_list
+    |> Tuple.to_list()
     |> Enum.join(".")
   end
 

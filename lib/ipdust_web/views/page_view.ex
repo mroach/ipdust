@@ -3,17 +3,20 @@ defmodule IpdustWeb.PageView do
   import Phoenix.HTML.Link
 
   def render("json.json", params) do
-    geoip = case params.geoip_success do
-      true ->
-        %{
-          country: %{
-            name: params[:geoip_country],
-            code: params[:geoip_country_iso],
-          },
-          city: params[:geoip_city]
-        }
-      _ -> %{}
-    end
+    geoip =
+      case params.geoip_success do
+        true ->
+          %{
+            country: %{
+              name: params[:geoip_country],
+              code: params[:geoip_country_iso]
+            },
+            city: params[:geoip_city]
+          }
+
+        _ ->
+          %{}
+      end
 
     asn =
       if params.geoip_asn_success do
@@ -42,7 +45,8 @@ defmodule IpdustWeb.PageView do
     link(name,
       to: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/#{name}",
       target: "_blank",
-      title: "View documentation for the '#{name}' header")
+      title: "View documentation for the '#{name}' header"
+    )
   end
 
   @doc """

@@ -30,7 +30,7 @@ defmodule IpdustWeb.PageControllerTest do
       |> put_req_header("x-real-ip", "24.34.153.229")
       |> get("/json")
 
-      expected = %{"name" => "United States", "code" => "US"}
+    expected = %{"name" => "United States", "code" => "US"}
 
     # Not working on CI. GeoIP should probably be mocked-out somehow anyway
     # since expecing that IP to always be in the US is just asking for trouble
