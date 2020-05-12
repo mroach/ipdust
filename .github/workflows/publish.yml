@@ -1,0 +1,20 @@
+name: Publish
+
+on:
+  push:
+    branches: [ 'v*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker login
+        run: docker login --username mfroach --password ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build release and push to Docker Hub
+        env:
+          MAXMIND_LICENSE: ${{ secrets.MAXMIND_LICENSE }}
+        run: make push-release
