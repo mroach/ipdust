@@ -37,6 +37,7 @@ COPY config/ ./config
 COPY lib/ ./lib
 COPY priv/ ./priv
 COPY test/ ./test
+COPY VERSION ./
 
 CMD ["mix", "do", "deps.get,", "phx.server"]
 
