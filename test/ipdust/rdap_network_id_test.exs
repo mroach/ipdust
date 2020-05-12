@@ -2,7 +2,7 @@ defmodule Ipdust.RDAPNetworkIdTest do
   use ExUnit.Case, async: true
   doctest Ipdust.RDAPNetworkId
 
-  alias Ipdust.{RDAPNetworkId}
+  alias Ipdust.RDAPNetworkId
   alias RDAP.{Entity, Response, VCard}
 
   test "finds registrant entity without nesting" do
