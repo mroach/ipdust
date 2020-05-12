@@ -4,13 +4,14 @@ defmodule Ipdust.Mixfile do
   def project do
     [
       app: :ipdust,
-      version: "0.0.3",
-      elixir: "~> 1.4",
+      version: version(),
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      build_path: build_path(Mix.env())
     ]
   end
 
@@ -34,19 +35,17 @@ defmodule Ipdust.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 1.4.3"},
-      {:phoenix_html, "~> 2.12"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:phoenix_html, "~> 2.14"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:plug_cowboy, "~> 2.0"},
       {:jason, "~> 1.0"},
       {:plug, "~> 1.7"},
-      {:timex, "~> 3.1"},
-      {:edeliver, "~> 1.6"},
-      {:distillery, "~> 2.0", runtime: false, warn_missing: false},
-      {:geolix, "~> 0.16"},
-      {:remote_ip, "~> 0.1.0"},
-      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
-      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:timex, "~> 3.6"},
+      {:geolix, "~> 1.1"},
+      {:remote_ip, "~> 0.2"},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:rdap, github: "mroach/elixir-rdap"}
     ]
   end
@@ -60,5 +59,21 @@ defmodule Ipdust.Mixfile do
   defp aliases do
     [
     ]
+  end
+
+  defp version do
+    case File.read("VERSION") do
+      {:ok, str} -> String.trim(str)
+      _ -> "0.0.1"
+    end
+  end
+
+  # When you use the MIX_BUILD_PATH environment variable it overrides all
+  # other configuration and disables building per environment.
+  # This causes problems with some applications that have different compile-time
+  # behaviour per environment. For example, mix_text_watch was totally broken.
+  defp build_path(env) do
+    root = System.get_env("MIX_BUILD_PATH_ROOT") || "_build"
+    Path.join(root, to_string(env))
   end
 end
