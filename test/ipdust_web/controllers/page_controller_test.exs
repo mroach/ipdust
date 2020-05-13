@@ -24,6 +24,9 @@ defmodule IpdustWeb.PageControllerTest do
     assert json_response(response, 200)["ip"] == "24.34.153.229"
   end
 
+  # Not working on CI. GeoIP should be mocked out before doing this.
+  # since expecing that IP to always be in the US is just asking for trouble.
+  @tag skip: true
   test "GET /json country info", %{conn: conn} do
     response =
       conn
@@ -32,10 +35,7 @@ defmodule IpdustWeb.PageControllerTest do
 
     expected = %{"name" => "United States", "code" => "US"}
 
-    # Not working on CI. GeoIP should probably be mocked-out somehow anyway
-    # since expecing that IP to always be in the US is just asking for trouble
-    #
-    # assert json_response(response, 200)["country"] == expected
+    assert json_response(response, 200)["country"] == expected
   end
 
   test "GET /json behind proxy", %{conn: conn} do
