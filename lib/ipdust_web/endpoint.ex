@@ -3,8 +3,6 @@ defmodule IpdustWeb.Endpoint do
 
   plug RemoteIp
 
-  socket "/socket", IpdustWeb.UserSocket, websocket: true
-
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest

@@ -53,13 +53,6 @@ defmodule IpdustWeb do
     end
   end
 
-  def channel do
-    quote do
-      use Phoenix.Channel
-      import IpdustWeb.Gettext
-    end
-  end
-
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """
