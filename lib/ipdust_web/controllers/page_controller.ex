@@ -10,7 +10,7 @@ defmodule IpdustWeb.PageController do
       case RDAP.lookup_ip(conn.remote_ip) do
         {:ok, response} ->
           conn
-          |> assign(:raw_response, Poison.encode!(response.raw_response, pretty: true))
+          |> assign(:raw_response, Jason.encode!(response.raw_response, pretty: true))
           |> assign(:network_id, Ipdust.RDAPNetworkId.identify(response))
 
         _ ->

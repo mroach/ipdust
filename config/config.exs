@@ -17,6 +17,8 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:user_id]
 
+config :phoenix, :json_library, Jason
+
 if Mix.env() == :dev do
   config :mix_test_watch,
     tasks: [
