@@ -42,7 +42,7 @@ defmodule Ipdust.Mixfile do
       {:jason, "~> 1.0"},
       {:plug, "~> 1.7"},
       {:timex, "~> 3.6"},
-      {:geolix, "~> 1.1"},
+      {:geolix, "~> 2.0"},
       {:remote_ip, "~> 0.2"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
