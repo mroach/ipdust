@@ -21,13 +21,13 @@ defmodule Ipdust.Application do
     Geolix.load_database(%{
       id: :city,
       adapter: Geolix.Adapter.MMDB2,
-      source: Application.app_dir(:ipdust, "priv/geoip/GeoLite2-City.tar.gz")
+      source: System.get_env("GEOIP_CITY_PATH", "/opt/data/geoip/GeoLite2-City.tar.gz")
     })
 
     Geolix.load_database(%{
       id: :asn,
       adapter: Geolix.Adapter.MMDB2,
-      source: Application.app_dir(:ipdust, "priv/geoip/GeoLite2-ASN.tar.gz")
+      source: System.get_env("GEOIP_ASN_PATH", "/opt/data/geoip/GeoLite2-ASN.tar.gz")
     })
 
     result

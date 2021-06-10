@@ -19,6 +19,7 @@ build-base:
 serve: build-base
 	docker run --rm -it \
 		-v $(PWD):/opt/app \
+		-v $(PWD)/priv/geoip:/opt/data/geoip \
 		-p 4000:4000 \
 		$(TAG) \
 		mix do deps.get, phx.server
@@ -26,6 +27,7 @@ serve: build-base
 shell: build-base
 	docker run --rm -it \
 		-v $(PWD):/opt/app \
+		-v $(PWD)/priv/geoip:/opt/data/geoip \
 		-p $(PORT):4000 \
 		$(TAG) \
 		bash

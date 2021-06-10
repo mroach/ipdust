@@ -16,6 +16,4 @@ jobs:
         run: docker login --username mfroach --password ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build release and push to Docker Hub
-        env:
-          MAXMIND_LICENSE: ${{ secrets.MAXMIND_LICENSE }}
         run: make push-release

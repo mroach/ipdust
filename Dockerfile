@@ -52,14 +52,6 @@ FROM base AS release_builder
 ENV MIX_ENV=prod \
     MIX_BUILD_PATH=/opt/mix/build/prod
 
-ARG maxmind_license
-
-RUN curl -Lfo priv/geoip/GeoLite2-City.tar.gz \
-    "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${maxmind_license}&suffix=tar.gz"
-
-RUN curl -Lfo priv/geoip/GeoLite2-ASN.tar.gz \
-    "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=${maxmind_license}&suffix=tar.gz"
-
 RUN mix release
 
 
@@ -81,6 +73,8 @@ EXPOSE 80
 RUN apk add --no-cache bash openssl
 
 WORKDIR /opt/app
+
+RUN mkdir -p /opt/data/geoip
 
 COPY --from=release_builder /opt/mix/build/prod/rel/ipdust/ .
 
