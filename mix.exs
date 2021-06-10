@@ -21,7 +21,7 @@ defmodule Ipdust.Mixfile do
   def application do
     [
       mod: {Ipdust.Application, []},
-      extra_applications: [:logger, :runtime_tools, :geolix]
+      extra_applications: [:hackney, :logger, :runtime_tools, :geolix, :telemetry]
     ]
   end
 
