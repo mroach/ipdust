@@ -44,7 +44,7 @@ defmodule Ipdust.Mixfile do
       {:timex, "~> 3.7"},
       {:geolix, "~> 2.0"},
       {:geolix_adapter_mmdb2, "~> 0.6"},
-      {:remote_ip, "~> 0.2"},
+      {:remote_ip, "~> 1.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:rdap, github: "mroach/elixir-rdap"}
