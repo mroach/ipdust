@@ -1,6 +1,6 @@
 .PHONY: build-base new-version push-release release serve shell test test-credo test-format
 
-ELIXIR_VER = 1.10
+ELIXIR_VER = 1.11
 PORT = 4000
 APP = ipdust
 DOCKER_ORG = mfroach
