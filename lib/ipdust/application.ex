@@ -6,6 +6,7 @@ defmodule Ipdust.Application do
 
   def start(_type, _args) do
     children = [
+      {Phoenix.PubSub, name: Ipdust.PubSub},
       IpdustWeb.Endpoint
     ]
 

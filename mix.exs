@@ -34,17 +34,18 @@ defmodule Ipdust.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.3"},
+      {:phoenix, "~> 1.5.9"},
       {:phoenix_html, "~> 2.14"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:gettext, "~> 0.11"},
       {:plug_cowboy, "~> 2.0"},
       {:jason, "~> 1.0"},
       {:plug, "~> 1.7"},
-      {:timex, "~> 3.6"},
-      {:geolix, "~> 1.1"},
+      {:timex, "~> 3.7"},
+      {:geolix, "~> 2.0"},
+      {:geolix_adapter_mmdb2, "~> 0.6"},
       {:remote_ip, "~> 0.2"},
-      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:rdap, github: "mroach/elixir-rdap"}
     ]

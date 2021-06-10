@@ -10,7 +10,7 @@ config :ipdust, IpdustWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "yZbCGGex99o7DAcju6oQkeFD3xQC073m4ZY8wLkjLuiIlVCf6DwQQSgvdR8azcKL",
   render_errors: [view: IpdustWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Ipdust.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: Ipdust.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,
