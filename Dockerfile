@@ -27,7 +27,6 @@ ENV MIX_DEPS_PATH=/opt/mix/deps \
     PS1="\u@\h:\w \$ "
 
 WORKDIR /opt/app
-VOLUME /opt/app
 
 COPY mix.exs mix.lock ./
 
