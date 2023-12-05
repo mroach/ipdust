@@ -37,7 +37,7 @@ defmodule Ipdust.Mixfile do
       {:phoenix, "~> 1.5.9"},
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 0.24"},
       {:plug_cowboy, "~> 2.0"},
       {:jason, "~> 1.0"},
       {:plug, "~> 1.7"},
