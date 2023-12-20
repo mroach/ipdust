@@ -35,7 +35,7 @@ defmodule Ipdust.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 1.5.9"},
-      {:phoenix_html, "~> 2.14"},
+      {:phoenix_html, "~> 4.0"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:gettext, "~> 0.11"},
       {:plug_cowboy, "~> 2.0"},
